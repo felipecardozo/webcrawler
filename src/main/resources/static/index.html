@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="front">
+    <meta name="keywords" content="front">
+    <meta author content="Felipe Cardozo"> 
+
+    <title>Web Crawler</title>
+
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body ng-app="app" ng-controller="MainController as main">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+            <h1 class="margin">Web Crawler</h1>
+        </div>
+        <div class="row">
+            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-8">
+                <div class="input-group pd">
+                    <input type="text" class="form-control" ng-model="main.search" placeholder="Search for..." ng-keyup="$event.keyCode == 13 && getData()">
+                    <span class="input-group-btn">
+                        <button class="btn btn-danger" type="button" ng-click="getData()">Go!</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-xs-10 col-sm-8 col-md-8 col-lg-12">
+            <uib-tabset ng-show="data.data" active="active">
+                <uib-tab index="0" heading="Basic information">
+                    <div class="container">
+                        <div class="row">
+                            <div class="table-responsive col-xs-10 col-sm-10 col-md-8 col-md-offset-2 mt30">
+                                <strong>Document Version: </strong>{{data.data.documentVersion}}<br>
+                                <strong>Document Title: </strong>{{data.data.title}}<br>
+                                <strong>Document Heads of type h1: </strong>{{data.data.heading.h1}}<br>
+                                <strong>Total anchors processed: </strong>{{data.data.anchors.length}}<br>
+                                <strong>Total internal links: </strong>{{data.data.internalLinks}}<br>
+                                <strong>Total external links: </strong>{{data.data.externalLinks}}<br>
+                            </div>
+                        </div>
+                    </div>
+                </uib-tab>
+                <uib-tab index="1" heading="Headings">
+                    <div class="container">
+                        <div class="row">
+                            <div class="table-responsive col-xs-10 col-sm-10 col-md-8 col-md-offset-2 mt30">
+                                <strong ng-show="data.data.heading.h1">h1 </strong><br>{{data.data.heading.h1}}<br>
+                                <strong ng-show="data.data.heading.h2">h2 </strong><br>{{data.data.heading.h2}}<br>
+                                <strong ng-show="data.data.heading.h3">h3 </strong><br>{{data.data.heading.h3}}<br>
+                                <strong ng-show="data.data.heading.h4">h4 </strong><br>{{data.data.heading.h4}}<br>
+                                <strong ng-show="data.data.heading.h5">h5 </strong><br>{{data.data.heading.h5}}<br>
+                                <strong ng-show="data.data.heading.h6">h6 </strong><br>{{data.data.heading.h6}}<br>
+                            </div>
+                        </div>
+                    </div>
+                </uib-tab>
+                <uib-tab index="2" heading="Anchors">
+                    <div class="container">
+                        <div class="row">
+                            <div class="table-responsive col-xs-10 col-sm-10 col-md-8 col-md-offset-2 mt30">
+                                <ul>
+                                    <li ng-repeat="anchor in data.data.anchors track by $index">
+                                        <a target="_blank" ng-hide="anchor.internal" href="{{anchor.url}}">{{anchor.url}}</a>
+                                        <span title="Will open in a new tab" ng-show="!anchor.internal">(+)</span>
+                                        <a ng-show="anchor.internal" href="{{anchor.url}}">{{anchor.url}}</a>
+                                    </li>
+                                </ul>
+                            </div>  
+                        </div>  
+                    </div> 
+                </uib-tab>
+                <uib-tab index="3" ng-show="data.data.form" heading="Login Form">
+                    <span>The website <a href="{{data.data.url}}">{{data.data.title}}</a> contains a login or a signup form, you must go first and fields those {{data.data.form.numFields}} fields and submit with a valid user name</span>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+        </div>
+    </div>
+</body>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-animate.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-sanitize.js"></script>
+    <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
+
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/MainController.js"></script>
+    <script type="text/javascript" src="js/MainService.js"></script>
+</html>
